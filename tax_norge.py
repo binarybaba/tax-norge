@@ -4,15 +4,15 @@ from decimal import Decimal
 
 
 year = Decimal(12)
-minimal_deduction_min = Decimal(81300)
-minimal_deduction_percent = Decimal(0.40)
+minimal_deduction_min = Decimal(89050)
+minimal_deduction_percent = Decimal(0.43)
 foreign_worker_deduction_max = Decimal(40000)
 foreign_worker_deduction_percent = Decimal(0.10)
-nis_rate = Decimal(0.078)
-tax_rate = Decimal(0.28)
+nis_rate = Decimal(0.082)
+tax_rate = Decimal(0.27)
 surtaxes = [
-    (Decimal(509600), Decimal(0.09)),
-    (Decimal(828300), Decimal(0.03)),
+    (Decimal(550550), Decimal(0.09)),
+    (Decimal(885600), Decimal(0.03)),
 ]
 
 total_income = Decimal(sys.argv[-1])
@@ -45,7 +45,10 @@ for total_surtax_amount, surtax_rate in surtaxes:
 nis = nis_rate * income
 total_tax = nis + tax
 total_tax_percent = total_tax / income
-monthly_pay = (income - total_tax) / months
+december_tax = total_tax / year / Decimal(2)
+monthly_tax = december_tax * Decimal('2') + december_tax / Decimal('11')
+monthly_pay = income / year - monthly_tax
+december_pay = income / year - december_tax
 
 nis_details = "{nis_rate:.1%} * {income:.2f}".format(**locals())
 
@@ -73,6 +76,7 @@ output = """
 | Total Tax %                  {total_tax_percent:>10.1%} |
 |                                         |
 | Monthly take-home pay        {monthly_pay:>10.2f} |
+| December take-home pay        {december_pay:>9.2f} |
 +-----------------------------------------+\n"""
 
 sys.stdout.write(output.format(**locals()))
