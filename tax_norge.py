@@ -5,15 +5,17 @@ from decimal import Decimal
 
 def tax_norge(amount):
     year = Decimal(12)
-    minimal_deduction_min = Decimal(89050)
-    minimal_deduction_percent = Decimal(0.43)
+    minimal_deduction_min = Decimal(94750) # https://www.skatteetaten.no/en/person/taxes/tax-return/find-item/3/2/1/
+    minimal_deduction_percent = Decimal(0.44) # https://www.skatteetaten.no/en/person/taxes/tax-return/find-item/3/2/1/
     foreign_worker_deduction_max = Decimal(40000)
     foreign_worker_deduction_percent = Decimal(0.10)
     nis_rate = Decimal(0.082)
     tax_rate = Decimal(0.27)
     surtaxes = [
-        (Decimal(550550), Decimal(0.09)),
-        (Decimal(885600), Decimal(0.03)),
+        (Decimal(164100), Decimal(0.093)), # https://www.nordisketax.net/main.asp?url=files/nor/eng/i07.asp
+        (Decimal(230950), Decimal(0.0241)),# since Surtaxes are replaced by bracket tax post 2015
+        (Decimal(580650), Decimal(0.1152)),# more on it here: https://www.skatteetaten.no/en/rates/surtax/
+        (Decimal(934050), Decimal(0.1452)),
     ]
 
     total_income = Decimal(amount)
